@@ -10,10 +10,13 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
-import { GlobalStyle } from '../styles/global-styles';
+import { GlobalStyle } from 'styles/global-styles';
 
 import { HomePage } from './containers/HomePage/Loadable';
-import { NotFoundPage } from './containers/NotFoundPage/Loadable';
+import { GenerateQr } from './containers/GenerateQr/Loadable';
+import { ScanQr } from './containers/ScanQr/Loadable';
+import { NotFoundPage } from './components/NotFoundPage/Loadable';
+import OverrideRoutes from './routes/';
 
 export function App() {
   return (
@@ -26,7 +29,19 @@ export function App() {
       </Helmet>
 
       <Switch>
-        <Route exact path={process.env.PUBLIC_URL + '/'} component={HomePage} />
+        <OverrideRoutes exact={true} path="/" component={HomePage} />
+        <OverrideRoutes
+          exact
+          path="/qr/generate"
+          component={GenerateQr}
+          isAppBar
+        />
+        <OverrideRoutes
+          isAppBar
+          exact={true}
+          path="/qr/scan"
+          component={ScanQr}
+        />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />
